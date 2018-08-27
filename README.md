@@ -1,13 +1,17 @@
-# lottotron.js
+# @spomni/lottotron
 
-The constructor **"`Lottotron`"** creates an object that can return random non-repeated integers.
-It returns integers from 0 to the user-defined value.
+Construct an object that returns random non-repeating integers.
+The instance returns integers from 0 to the user-defined value.
 
 ## How to use
 
-Include the file **"`lottotron.js`"** into your project.
+Install **`lottotron`**.
 
-    <script type="text/javascript" src="js/lottotron.js"></script>
+    npm install @spomni/lottotron
+  
+Add a constructor into your script.
+
+    const Lottotron = require('@spomni/lottotron')
 
 Create an instance of the class **"`Lottotron( maxNumber )`"** passing the max value as option. The number should be not less than 0.
 
@@ -33,8 +37,8 @@ The property **"`#restNumbers`"** contains all numbers that were not returned fr
 
 ## Error processing
 
-If you pass invalid value as the option of the constructor it returns an **"`Error`"** object. The field **"`message`"** of this object contains an error description.
+If you pass invalid value as the option of the constructor it throws an **"`Error`"** object. The field **"`message`"** of this object contains an error description.
 
-***
+<hr>
 
-Look for additional information in the documentation.
+The more information looks on the [documentation](https://https://spomni.github.io/lottotron).

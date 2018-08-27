@@ -1,0 +1,35 @@
+{
+  "name": "@spomni/lottotron",
+  "version": "2.0.0",
+  "description": "'Construct an object that returns random non-repeating integers'",
+  "main": "lottotron.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --reporter progress",
+    "prepublishOnly": "npm run standart && npm test",
+    "standart": "standart --fix --env mocha",
+    "generate-doc": "jsdoc lottotron.js -d doc/ -r README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Spomni/lottotron.git"
+  },
+  "author": "spomni",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Spomni/lottotron/issues"
+  },
+  "homepage": "https://github.com/Spomni/lottotron#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0",
+    "standart": "^6.1.0"
+  },
+  "standart": {
+    "ignore": "doc/**/*"
+  }
+}

@@ -1,3 +1,5 @@
+module.exports = Lottotron
+
 /** @constructor Lottotron
   *
   * @classdesc Create an object that can return random non-repeated integers. It returns integers from 0 to the user-defined value.
@@ -6,13 +8,12 @@
   *
   * @returns {Lottotron|Error}
   */
-  function Lottotron( maxNumber ){
-
-    //-- Check and init input param
-      if ( typeof(maxNumber) != 'number' ){
-        return new Error('The input option "maxNumber" should be a number.');
-      } else if ( maxNumber < 0 ){
-        return new Error('The input option "maxNumber" should be greater than 0.');
+  function Lottotron(maxNumber) {
+    // -- Check and init input param
+      if (typeof(maxNumber) !== 'number') {
+        throw new Error('The input option "maxNumber" should be a number.')
+      } else if (maxNumber < 0) {
+        throw new Error('The input option "maxNumber" should be greater than 0.')
       }
 
     /** @member {number} _maxNumber - The max number of the interval.
@@ -21,7 +22,7 @@
       *
       * @memberof Lottotron
       */
-      this._maxNumber = Math.floor( maxNumber );
+      this._maxNumber = Math.floor(maxNumber)
 
     /** @member {number} maxNumber - The max number of the interval.
       * @instance
@@ -29,9 +30,9 @@
       *
       * @memberof Lottotron
       */
-      Object.defineProperty( Lottotron.prototype, 'maxNumber', {
+      Object.defineProperty(Lottotron.prototype, 'maxNumber', {
         get : this._getMaxNumber
-      });
+      })
 
     /** @member {array} _restNumbers - The array of the numbers that were not returned from method *#getNumber()*.
       * @private
@@ -39,7 +40,7 @@
       *
       * @memberof Lottotron
       */
-      this._restNumbers = this._createNumbersArray( this._maxNumber );
+      this._restNumbers = this._createNumbersArray(this._maxNumber)
 
     /** @member {array} restNumbers - The array of the numbers that were not returned from method *#getNumber()*.
       * @instance
@@ -47,9 +48,9 @@
       *
       * @memberof Lottotron
       */
-      Object.defineProperty( Lottotron.prototype, 'restNumbers', {
+      Object.defineProperty(Lottotron.prototype, 'restNumbers', {
         get : this._getRestNumbers
-      });
+      })
   };
 
   /** @method getNumber
@@ -61,14 +62,14 @@
     *
     * @memberof Lottotron
     */
-  Lottotron.prototype.getNumber = function (){
-    if (this._restNumbers.length <= 0){
-      return null;
+  Lottotron.prototype.getNumber = function() {
+    if (this._restNumbers.length <= 0) {
+      return null
     } else {
-      var numberIndx = this._randomInteger(0, this._restNumbers.length-1);
-      return this._restNumbers.splice(numberIndx, 1)[0];
+      var numberIndx = this._randomInteger(0, this._restNumbers.length - 1)
+      return this._restNumbers.splice(numberIndx, 1)[0]
     }
-  };
+  }
 
   /** @method reload
     * @instance
@@ -79,29 +80,29 @@
     *
     * @memberof Lottotron
     */
-    Lottotron.prototype.reload = function(){
-      for (var i=0; i<=this._maxNumber; i++){
-        this._restNumbers[i] = i;
+    Lottotron.prototype.reload = function() {
+      for (var i = 0; i <= this._maxNumber; i++) {
+        this._restNumbers[i] = i
       }
-    };
+    }
 
   /** Return the value of the private var "maxNumber".
     * @private
     * @instance
     * @memberof Lottotron
     */
-  Lottotron.prototype._getMaxNumber = function(){
-    return this._maxNumber;
-  };
+  Lottotron.prototype._getMaxNumber = function() {
+    return this._maxNumber
+  }
 
   /** Return a clone of the private array "restNumbers"
     * @private
     * @instance
     * @memberof Lottotron
     */
-  Lottotron.prototype._getRestNumbers = function(){
-    return this._cloneArray( this._restNumbers );
-  };
+  Lottotron.prototype._getRestNumbers = function() {
+    return this._cloneArray(this._restNumbers)
+  }
 
   /** Return a clone of the array
     *
@@ -112,13 +113,13 @@
     * @private
     * @memberof Lottotron
     */
-  Lottotron.prototype._cloneArray = function( array ){
-    var res = [];
-    array.forEach(function(value, i, array){
-      res.push( value );
-    });
-    return res;
-  };
+  Lottotron.prototype._cloneArray = function(array) {
+    var res = []
+    array.forEach(function(value, i, array) {
+      res.push(value)
+    })
+    return res
+  }
 
   /** Return a random number from min to max
     *
@@ -130,11 +131,11 @@
     * @private
     * @memberof Lottotron
     */
-    Lottotron.prototype._randomInteger = function(min, max){
-      var rand = min + Math.random() * (max + 1 - min);
-      rand = Math.floor(rand);
-      return rand;
-    };
+    Lottotron.prototype._randomInteger = function(min, max) {
+      var rand = min + Math.random() * (max + 1 - min)
+      rand = Math.floor(rand)
+      return rand
+    }
 
   /** Return an integer array filled with numbers from 0 to "maxNumber".
     *
@@ -145,19 +146,19 @@
     * @private
     * @memberof Lottotron
     */
-    Lottotron.prototype._createNumbersArray = function( maxNumber ){
-      var res = [];
-      for ( var i=0; i<=maxNumber; i++ ){
-        res[i] = i;
+    Lottotron.prototype._createNumbersArray = function(maxNumber) {
+      var res = []
+      for (var i = 0; i <= maxNumber; i++) {
+        res[i] = i
       }
-      return res;
-    };
+      return res
+    }
 
-  //-- Hide private methods
-    for ( var key in Lottotron.prototype ){
-      if ( key[0] === "_" ){
-        Object.defineProperty( Lottotron.prototype, key, {
-          "enumerable" : false
-        });
+  // -- Hide private methods
+    for (var key in Lottotron.prototype) {
+      if (key[0] === '_') {
+        Object.defineProperty(Lottotron.prototype, key, {
+          'enumerable' : false
+        })
       };
     };
