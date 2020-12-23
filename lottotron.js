@@ -6,6 +6,42 @@ const ERROR_MSG ={
 }
 
 /**
+ * Return a clone of the array
+ *
+ * @param {array} array
+ * @returns {array}
+ */
+const cloneArray = (array) => array.map(value => value);
+
+/**
+ * Return a random number from min to max
+ *
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+const randomInteger = (min, max) => {
+  const randomNumber = min + Math.random () * (max + 1 - min);
+  return Math.floor(randomNumber);
+}
+
+/**
+ * Return an integer array filled with numbers from 0 to "maxNumber".
+ *
+ * @param {number} maxNumber
+ * @returns {array}
+ */
+const createArrayOfIntegers = (maxNumber) => {
+  let arrayOfIntegers = [];
+
+  for (let i=0; i <= maxNumber; i++) {
+    arrayOfIntegers[i] = i;
+  }
+
+  return arrayOfIntegers;
+}
+
+/**
  * Create an object that can return random non-repeated integers.
  * It returns integers from 0 to the user-defined value.
  *
@@ -17,7 +53,6 @@ class Lottotron {
 
   constructor(maxNumber) {
 
-    // Check and init input param
     if (!isNumber(maxNumber)) {
       throw new Error(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER);
     }
@@ -38,12 +73,12 @@ class Lottotron {
 
     /**
      * The array of the numbers that were not returned from the *#getNumber()* method
-     * @member {number[]} _restNumbers -
+     * @member {number[]} _restNumbers
      * @memberof Lottotron
      * @instance
      * @private
      */
-    this._restNumbers = this._createNumbersArray(this._maxNumber)
+    this._restNumbers = createArrayOfIntegers(this._maxNumber)
 
   }
 
@@ -68,7 +103,7 @@ class Lottotron {
    * @memberof Lottotron
    */
   get restNumbers() {
-    return this._cloneArray(this._restNumbers);
+    return cloneArray(this._restNumbers);
   }
 
   /**
@@ -93,58 +128,9 @@ class Lottotron {
     if (this._restNumbers.length <= 0) {
       return null
     } else {
-      var numberIndx = this._randomInteger(0, this._restNumbers.length - 1)
+      var numberIndx = randomInteger(0, this._restNumbers.length - 1)
       return this._restNumbers.splice(numberIndx, 1)[0]
     }
-  }
-
-  /**
-   * Return a clone of the array
-   *
-   * @param {array} array
-   * @returns {array}
-   * @memberof Lottotron
-   * @private
-   */
-  _cloneArray(array) {
-    var res = []
-    array.forEach(function(value, i, array) {
-      res.push(value)
-    })
-    return res
-  }
-
-  /**
-   * Return a random number from min to max
-   *
-   * @param {number} min
-   * @param {number} max
-   *
-   * @returns {number}
-   * @memberof Lottotron
-   * @private
-   */
-  _randomInteger(min, max) {
-    var rand = min + Math.random () * (max + 1 - min)
-    rand = Math.floor(rand)
-    return rand
-  }
-
-  /**
-   * Return an integer array filled with numbers from 0 to "maxNumber".
-   *
-   * @param {number} maxNumber
-   *
-   * @returns {array}
-   * @memberof Lottotron
-   * @private
-   */
-  _createNumbersArray(maxNumber) {
-    var res = []
-      for (var i = 0; i <= maxNumber; i++) {
-        res[i] = i
-      }
-      return res
   }
 
 }
