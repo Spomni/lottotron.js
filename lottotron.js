@@ -10,6 +10,7 @@ const ERROR_MSG ={
  *
  * @param {array} array
  * @returns {array}
+ * @private
  */
 const cloneArray = (array) => array.map(value => value);
 
@@ -19,6 +20,7 @@ const cloneArray = (array) => array.map(value => value);
  * @param {number} min
  * @param {number} max
  * @returns {number}
+ * @private
  */
 const getRandomInteger = (min, max) => {
   const randomNumber = min + Math.random () * (max + 1 - min);
@@ -30,6 +32,7 @@ const getRandomInteger = (min, max) => {
  *
  * @param {number} maxNumber
  * @returns {array}
+ * @private
  */
 const createArrayOfIntegers = (maxNumber) => {
   let arrayOfIntegers = [];
