@@ -1,3 +1,9 @@
+const { isNumber } = require('util');
+
+const ERROR_MSG ={
+  MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
+  MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
+}
 
 /**
  * Create an object that can return random non-repeated integers.
@@ -11,11 +17,13 @@ class Lottotron {
 
   constructor(maxNumber) {
 
-    // -- Check and init input param
-    if (typeof(maxNumber) !== 'number') {
-      throw new Error('The input option "maxNumber" should be a number.')
-    } else if (maxNumber < 0) {
-      throw new Error('The input option "maxNumber" should be greater than 0.')
+    // Check and init input param
+    if (!isNumber(maxNumber)) {
+      throw new Error(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER);
+    }
+
+    if (maxNumber < 0) {
+      throw new Error(ERROR_MSG.MAX_NUMBER_LOWER_ZERO);
     }
 
     /**
@@ -117,7 +125,7 @@ class Lottotron {
    * @private
    */
   _randomInteger(min, max) {
-    var rand = min + Math.random() * (max + 1 - min)
+    var rand = min + Math.random () * (max + 1 - min)
     rand = Math.floor(rand)
     return rand
   }
