@@ -20,7 +20,7 @@ const cloneArray = (array) => array.map(value => value);
  * @param {number} max
  * @returns {number}
  */
-const randomInteger = (min, max) => {
+const getRandomInteger = (min, max) => {
   const randomNumber = min + Math.random () * (max + 1 - min);
   return Math.floor(randomNumber);
 }
@@ -113,7 +113,7 @@ class Lottotron {
    * @memberof Lottotron
    */
   reload() {
-    for (var i = 0; i <= this._maxNumber; i++) {
+    for (let i = 0; i <= this._maxNumber; i++) {
       this._restNumbers[i] = i
     }
   }
@@ -125,12 +125,15 @@ class Lottotron {
    * @memberof Lottotron
    */
   getNumber() {
-    if (this._restNumbers.length <= 0) {
+
+    let { _restNumbers } = this;
+
+    if (_restNumbers.length === 0) {
       return null
-    } else {
-      var numberIndx = randomInteger(0, this._restNumbers.length - 1)
-      return this._restNumbers.splice(numberIndx, 1)[0]
     }
+
+    let index = getRandomInteger(0, _restNumbers.length - 1)
+    return _restNumbers.splice(index, 1)[0]
   }
 
 }
