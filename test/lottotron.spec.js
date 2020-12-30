@@ -24,7 +24,7 @@ const arrayOfTypes = [
 const ERROR_MSG_ ={
   MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
   MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
-  MAX_NUMBER_IS_NOT_FINITE: 'The input option "maxNumber" should be a finite number.'
+  MAX_NUMBER_IS_NON_FINITE: 'The input option "maxNumber" should be a finite number.'
 }
 
 const assertThrowsLottotronError = (cb) => {
@@ -58,14 +58,19 @@ describe('class Lottotron', () => {
           ERROR_MSG_.MAX_NUMBER_IS_NOT_NUMBER
         );
       })
-    )
+    );
 
-    it('Should throw an "Error" object if the input param "maxNumber" is not finite value',
-      () => {
-        [NaN, +Infinity, -Infinity].forEach((nonFinite) => {
-          assertThrowsLottotronError(() => new Lottotron(nonFinite));
-        })
-      }
+    it(`Should throw an error if the maxNumber option is a non-finite number.`,
+      () => arrayOfTypes.forEach((typeValue) => {
+        if (!isNumber(typeValue)) return;
+        if (Number.isFinite(typeValue)) return;
+
+        assert.throws(
+          () => new Lottotron(typeValue),
+          LottotronError,
+          ERROR_MSG_.MAX_NUMBER_IS_NON_FINITE
+        )
+      })
     );
 
     it('Should throw an "Error" object if the input param "maxNumber" is less than 0.', function() {
