@@ -4,13 +4,28 @@ const Lottotron = require('../lottotron.js')
 const LottotronError = require('../lib/LottotronError');
 
 const arrayOfTypes = [
-  1, // number
-  'string', //string
-  null, // null
-  undefined, // undefined
-  [], //array
-  {} // object
+  'string',
+  null,
+  undefined,
+  [],
+  {},
+  () => {},
+
+  /* number */
+  1,
+  -1,
+  1.3,
+  -1.4,
+  +Infinity,
+  -Infinity,
+  NaN,
 ]
+
+const ERROR_MSG_ ={
+  MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
+  MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
+  MAX_NUMBER_IS_NOT_FINITE: 'The input option "maxNumber" should be a finite number.'
+}
 
 const assertThrowsLottotronError = (cb) => {
   assert.throws(cb);
@@ -29,21 +44,21 @@ const areStrictEqualArrays = (array1, array2) => {
     && array1.every((value, index) => value === array2[index]);
 }
 
-const forEachType = (callback) => {
-  return arrayOfTypes.forEach((value) => callback(value))
-}
+describe('class Lottotron', () => {
 
-describe('lottotron.js', function() {
+  describe('constructor(maxNumber)', () => {
 
-  describe('new Lottotron( maxNumber )', function() {
-    it('Should throw an "Error" object if the input param "maxNumber" is not number.', forEachType(function(type) {
-      if (!isNumber(type)) {
-        assert.throws(function() {
-          var lotto = new Lottotron(type)
-          lotto.reset()
-        }, Error)
-      }
-    }))
+    it('Should throw an error if the maxNumber option is not a number.',
+      () => arrayOfTypes.forEach((typeValue) => {
+        if (isNumber(typeValue)) return;
+
+        assert.throws(
+          () => new Lottotron(typeValue),
+          LottotronError,
+          ERROR_MSG_.MAX_NUMBER_IS_NOT_NUMBER
+        );
+      })
+    )
 
     it('Should throw an "Error" object if the input param "maxNumber" is not finite value',
       () => {
