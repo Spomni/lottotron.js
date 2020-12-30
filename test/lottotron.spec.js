@@ -1,99 +1,42 @@
 const assert = require('chai').assert
+
 const Lottotron = require('../lottotron.js')
-const lottotronError = require('../lib/LottotronError');
+const LottotronError = require('../lib/LottotronError');
+
+const arrayOfTypes = [
+  1, // number
+  'string', //string
+  null, // null
+  undefined, // undefined
+  [], //array
+  {} // object
+]
 
 const assertThrowsLottotronError = (cb) => {
   assert.throws(cb);
   try {
     cb();
   } catch (error) {
-    assert.instanceOf(error, lottotronError);
+    assert.instanceOf(error, LottotronError);
   }
 }
 
+const isNumber = (value) => typeof(value) === 'number';
+const isNull = (value) => value === null;
+
+const areStrictEqualArrays = (array1, array2) => {
+  return array1.length === array2.length
+    && array1.every((value, index) => value === array2[index]);
+}
+
+const forEachType = (callback) => {
+  return arrayOfTypes.forEach((value) => callback(value))
+}
+
 describe('lottotron.js', function() {
-  /** @namespace itWrappers */
-    const itWr = {
-
-      /** @function forEachType Вызывает функцию callback для каждого из стандартных типов данных.
-        * @describe Вызывает функцию callback для каждого из стандартных типов данных. В параметр type передает экземпляр соответствующего типа данеых.
-        * @param {Function} callback( type )
-        * @returns {undefined}
-        */
-        forEachType : function(callback) {
-          var typeArr = [
-            1,
-            'string',
-            null,
-            undefined,
-            [],
-            {}
-          ]
-
-          var res = function() {
-            typeArr.forEach(function(type, i, typeArr) {
-              callback(type)
-            })
-          }
-
-          return res
-        }
-      //
-    } // itWrapper
-
-  /** @function isNumber
-    * @param {mixed} value
-    * @returns {boolean}
-    */
-    function isNumber(param) {
-      return (typeof(param) === 'number')
-    }
-
-  /** @function isNull
-    * @param {mixed} value
-    * @returns {boolean}
-    */
-    function isNull(value) {
-      return value === null
-    }
-
-  /** @function doesArrayInclude Check the inclusion of the value in the array.
-    * @desc Check the inclusion of the value in the array. Return "true" if the value is encluded else return "false".
-    *
-    * @param {array} array
-    * @param {mixed} value
-    *
-    * @returns {boolean}
-    */
-    function doesArrayInclude(array, value) {
-      var res = false
-      array.forEach(function(arrayValue, i, array) {
-        if (arrayValue === value) {
-          res = true
-        }
-      })
-      return res
-    }
-
-  /** @function isEqualArrays
-    * @param {array} array1
-    * @param {array} array2
-    * @returns {boolean}
-    */
-    function isEqualArrays(array1, array2) {
-      if (array1.length !== array2.length) {
-        return false
-      }
-      for (let i = 0; i < array1.length; i++) {
-        if (array1[i] !== array2[i]) {
-          return false
-        }
-      }
-      return true
-    }
 
   describe('new Lottotron( maxNumber )', function() {
-    it('Should throw an "Error" object if the input param "maxNumber" is not number.', itWr.forEachType(function(type) {
+    it('Should throw an "Error" object if the input param "maxNumber" is not number.', forEachType(function(type) {
       if (!isNumber(type)) {
         assert.throws(function() {
           var lotto = new Lottotron(type)
@@ -101,7 +44,6 @@ describe('lottotron.js', function() {
         }, Error)
       }
     }))
-
 
     it('Should throw an "Error" object if the input param "maxNumber" is not finite value',
       () => {
@@ -192,7 +134,7 @@ describe('lottotron.js', function() {
           array2.push(lotto2.getNumber())
         }
 
-        assert(!isEqualArrays(array1, array2))
+        assert(!areStrictEqualArrays(array1, array2))
       })
     })
 
@@ -257,7 +199,7 @@ describe('lottotron.js', function() {
 
         lotto.restNumbers = [1, 3]
 
-        assert(isEqualArrays([0, 1, 2, 3, 4], lotto.restNumbers))
+        assert(areStrictEqualArrays([0, 1, 2, 3, 4], lotto.restNumbers))
       })
 
       it('Should not change when the returb value has been changed.', function() {
@@ -266,7 +208,7 @@ describe('lottotron.js', function() {
         var value = lotto.restNumbers
         value.push(98)
 
-        assert(isEqualArrays([0, 1, 2, 3], lotto.restNumbers))
+        assert(areStrictEqualArrays([0, 1, 2, 3], lotto.restNumbers))
       })
     })
 
@@ -309,7 +251,7 @@ describe('lottotron.js', function() {
         for (let i = 0; i <= maxNumber; i++) {
           var number = lotto.getNumber()
 
-          if (doesArrayInclude(numbersArray, number)) {
+          if (numbersArray.includes(number)) {
             numbersArray.forEach(function(value, index, numbersArray) {
               if (value === number) {
                 numbersArray.splice(index, 1)
