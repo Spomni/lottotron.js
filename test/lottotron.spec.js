@@ -95,8 +95,8 @@ describe('lottotron.js', function() {
 
     it('Should throw an "Error" object if the input param "maxNumber" is not finite value',
       () => {
-        [NaN, +Infinity, -Infinity].forEach((notFinite) => {
-          assert.throws(() => new Lottotron(notFinite));
+        [NaN, +Infinity, -Infinity].forEach((nonFinite) => {
+          assert.throws(() => new Lottotron(nonFinite));
         })
       }
     );
