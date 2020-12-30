@@ -27,15 +27,6 @@ const ERROR_MSG_ ={
   MAX_NUMBER_IS_NON_FINITE: 'The input option "maxNumber" should be a finite number.'
 }
 
-const assertThrowsLottotronError = (cb) => {
-  assert.throws(cb);
-  try {
-    cb();
-  } catch (error) {
-    assert.instanceOf(error, LottotronError);
-  }
-}
-
 const isNumber = (value) => typeof(value) === 'number';
 const isNull = (value) => value === null;
 
@@ -73,12 +64,15 @@ describe('class Lottotron', () => {
       })
     );
 
-    it('Should throw an "Error" object if the input param "maxNumber" is less than 0.', function() {
-      assertThrowsLottotronError(function() {
-        var lotto = new Lottotron(-1)
-        lotto.reset()
-      }, Error)
-    })
+    it('Should throw an error if the maxNumber option less than 0.',
+      () => {
+        assert.throws(
+          () => new Lottotron(-5),
+          LottotronError,
+          ERROR_MSG_.MAX_NUMBER_LOWER_ZERO
+        )
+      }
+    )
 
     it('Should return an object instance of "Lottotron" if the input param "maxNumber" is number and it is not less than 0.', function() {
       var lotto = new Lottotron(8)
