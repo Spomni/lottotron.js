@@ -79,35 +79,42 @@ describe('class Lottotron', () => {
     )
   })
 
-  describe('Lottotron', function() {
+  describe('#maxNumber', () => {
 
-    describe('#maxNumber', function() {
-      it('Should be number', function() {
-        var lotto = new Lottotron(8.3)
-        assert.isNumber(lotto.maxNumber)
-      })
 
-      it('Should be not less than 0', function() {
-        var lotto = new Lottotron(5.7)
-        assert(!(lotto.maxNumber < 0))
-      })
+    it(`Should be a positive integer`,
+      () => {
+        const { maxNumber } = new Lottotron(3.6);
+        assert(Number.isInteger(maxNumber))
+      }
+    )
 
-      it('Should be integer', function() {
-        var lotto = new Lottotron(3.2)
-        assert((lotto.maxNumber % 1 === 0))
-      })
+    it(`Should be equal to the maxNumber constructor option if one passed with integer value.`,
+      () => {
+        const value = 5;
+        const { maxNumber } = new Lottotron(value);
+        assert.strictEqual(maxNumber, value);
+      }
+    )
 
-      it('Should round to down the param "maxNumber" if it is a float number.', function() {
-        var lotto = new Lottotron(4.7)
-        assert.strictEqual(lotto.maxNumber, 4)
-      })
+    it(`Should be equal the rounded down maxNumber constructor option if one passed with a float value.`,
+      () => {
+        const value = 93.4;
+        const flooredValue = Math.floor(value);
+        const { maxNumber } = new Lottotron(value);
+        assert.strictEqual(maxNumber, flooredValue);
+      }
+    )
 
-      it('Should be read-only.', function() {
-        var lotto = new Lottotron(3)
-        lotto.maxNumber = 7
-        assert.equal(lotto.maxNumber, 3)
-      })
+    it('Should be a read-only property.', function() {
+      const initalValue = 3;
+      const lotto = new Lottotron(initalValue);
+      lotto.maxNumber = 7;
+      assert.equal(lotto.maxNumber, initalValue);
     })
+  })
+
+  describe('Lottotron', () => {
 
     describe('#getNumber()', function() {
       it('The calls with numbers from 0 till "maxNumber" should return all numbers of the interval.', function() {
