@@ -77,14 +77,10 @@ describe('class Lottotron', () => {
     it('Should return a Lottotron instance if the maxNumber option has a correct value.',
       () => assert.instanceOf(new Lottotron(3), Lottotron)
     )
-
-    it('Should round to down the param "maxNumber" if it is a float number.', function() {
-      var lotto = new Lottotron(4.7)
-      assert.strictEqual(lotto.maxNumber, 4)
-    })
   })
 
   describe('Lottotron', function() {
+
     describe('#maxNumber', function() {
       it('Should be number', function() {
         var lotto = new Lottotron(8.3)
@@ -99,6 +95,11 @@ describe('class Lottotron', () => {
       it('Should be integer', function() {
         var lotto = new Lottotron(3.2)
         assert((lotto.maxNumber % 1 === 0))
+      })
+
+      it('Should round to down the param "maxNumber" if it is a float number.', function() {
+        var lotto = new Lottotron(4.7)
+        assert.strictEqual(lotto.maxNumber, 4)
       })
 
       it('Should be read-only.', function() {
