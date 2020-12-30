@@ -35,6 +35,12 @@ const areStrictEqualArrays = (array1, array2) => {
     && array1.every((value, index) => value === array2[index]);
 }
 
+const getNaturalNumbersTo = (maxNumber) => {
+  let array = [];
+  for (let i=0; i <= maxNumber; i++) array.push(i);
+  return array;
+}
+
 describe('class Lottotron', () => {
 
   describe('constructor(maxNumber)', () => {
@@ -242,60 +248,34 @@ describe('class Lottotron', () => {
     );
   })
 
+  describe('#reload()', () => {
 
+    it(`The #restNumbers array should contain all numbers after that the #reload()was called.`,
+      () => {
+        const maxNumber = 9;
+        const lotto = new Lottotron(maxNumber);
+        const expectedRestNumbers = getNaturalNumbersTo(maxNumber);
 
-  describe('Lottotron', () => {
-
-    describe('#reload()', function() {
-      it('The property "restNumbers" should contain all numbers of the interval.', function() {
-        var maxNumber = 11
-        var lotto = new Lottotron(maxNumber)
-
-        var initalArray = []
-        for (let i = 0; i <= maxNumber; i++) {
-          initalArray.push(i)
-        }
-
-        for (let i = 0; i < 5; i++) {
-          lotto.getNumber()
-        }
-
+        while (lotto.restNumbers.length > 2) lotto.getNumber();
         lotto.reload()
+        assert.deepEqual(lotto.restNumbers, expectedRestNumbers)
+      }
+    );
 
-        initalArray.forEach(function(number, i, initalArray) {
-          assert.include(lotto.restNumbers, number)
-        })
-      })
+    it(`The #geNumber() method should return all numbers of the interval in (maxNumber + 1) method calls after that the #reload() method was called.`,
+      () => {
+        const maxNumber = 17;
+        const lotto = new Lottotron(maxNumber);
 
-      it('The "#getNumber()" calls with numbers from 0 till "maxNumber" should return all numbers of the interval..', function() {
-        var maxNumber = 12
-        var lotto = new Lottotron(maxNumber)
+        while (lotto.restNumbers.length > 0) lotto.getNumber();
+        lotto.reload();
 
-        var numbersArray = []
-        for (let i = 0; i <= maxNumber; i++) {
-          numbersArray.push(i)
-        }
-
-        for (let i = 0; i < 5; i++) {
-          lotto.getNumber()
-        }
-
-        lotto.reload()
-
-        for (let i = 0; i <= maxNumber; i++) {
-          var number = lotto.getNumber()
-
-          if (numbersArray.includes(number)) {
-            numbersArray.forEach(function(value, index, numbersArray) {
-              if (value === number) {
-                numbersArray.splice(index, 1)
-              }
-            })
-          }
-        }
-
-        assert.strictEqual(numbersArray.length, 0)
-      })
-    })
+        assert(
+          Array(maxNumber + 1).fill(null)
+            .map(() => lotto.getNumber())
+            .every((number, index, numberList) => numberList.includes(index))
+        )
+      }
+    );
   })
 })
