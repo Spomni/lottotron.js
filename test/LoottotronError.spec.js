@@ -2,9 +2,9 @@ const { assert } = require('chai');
 
 const LottotronError = require('../lib/LottotronError');
 
-describe(`LottotronError,js`, () => {
+describe(`class LottotronError`, () => {
 
-  describe(`new LottotronError(message):`, () => {
+  describe(`constructor(message):`, () => {
 
     it(`Should be an instance of LottotronError.`, () => {
       assert.instanceOf(new LottotronError(), LottotronError);
@@ -14,4 +14,15 @@ describe(`LottotronError,js`, () => {
       assert.instanceOf(new LottotronError(), Error);
     })
   })
+
+  describe('#message', () => {
+    it(`Should be equal to the option passed in constructor.`,
+      () => {
+        const string = `message`;
+        const { message } = new LottotronError(string);
+        assert.strictEqual(message, string);
+      }
+    );
+  })
+
 })
