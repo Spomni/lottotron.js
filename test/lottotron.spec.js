@@ -81,7 +81,6 @@ describe('class Lottotron', () => {
 
   describe('#maxNumber', () => {
 
-
     it(`Should be a positive integer`,
       () => {
         const { maxNumber } = new Lottotron(3.6);
@@ -106,58 +105,70 @@ describe('class Lottotron', () => {
       }
     )
 
-    it('Should be a read-only property.', function() {
-      const initalValue = 3;
-      const lotto = new Lottotron(initalValue);
-      lotto.maxNumber = 7;
-      assert.equal(lotto.maxNumber, initalValue);
-    })
+    it('Should be a read-only property.',
+      () => {
+        const initalValue = 3;
+        const lotto = new Lottotron(initalValue);
+        lotto.maxNumber = 7;
+        assert.equal(lotto.maxNumber, initalValue);
+      }
+    )
   })
 
+  describe('#getNumber()', () => {
+
+    it(`Should return all numbers of the interval in (maxNumber + 1) method calls.`,
+      () => {
+        const lotto = new Lottotron(8);
+        const { maxNumber } = lotto;
+
+        assert(
+          Array(maxNumber + 1).fill(null)
+            .map(() => lotto.getNumber())
+            .every((number, index, numberList) => numberList.includes(index))
+        )
+      }
+    );
+
+    it(`Should return null if method is called (maxNumber + 2) or more times. `,
+      () => {
+        const lotto = new Lottotron(6);
+        const { maxNumber } = lotto;
+        let counter = 0;
+
+        while (counter < maxNumber + 5) {
+          if (counter <= maxNumber + 1) {
+            lotto.getNumber()
+          } else {
+            assert.isNull(lotto.getNumber());
+          }
+          counter++;
+        }
+      }
+    );
+
+    it(`Should not return equal number sequenses from different Lottotron instance.`,
+      () => {
+        const maxNumber = 8;
+        const lotto1 = new Lottotron(maxNumber);
+        const lotto2 = new Lottotron(maxNumber);
+
+        const sequence1 = Array(maxNumber + 1).fill(null)
+          .map(() => lotto1.getNumber())
+
+        const sequence2 = Array(maxNumber + 1).fill(null)
+          .map(() => lotto2.getNumber())
+
+        assert.isFalse(sequence1.every((number, index) => {
+          return sequence2[index] === number;
+        }))
+      }
+    )
+
+  })
+
+
   describe('Lottotron', () => {
-
-    describe('#getNumber()', function() {
-      it('The calls with numbers from 0 till "maxNumber" should return all numbers of the interval.', function() {
-        var maxNumber = 4
-        var lotto = new Lottotron(maxNumber)
-        var returnedNumbers = []
-
-        for (let i = 0; i <= maxNumber; i++) {
-          returnedNumbers.push(lotto.getNumber())
-        }
-
-        for (let i = 0; i <= maxNumber; i++) {
-          assert.include(returnedNumbers, i)
-        }
-      })
-
-      it('The next calls should return "null"', function() {
-        var maxNumber = 4
-        var lotto = new Lottotron(maxNumber)
-
-        for (let i = 0; i <= maxNumber; i++) {
-          lotto.getNumber()
-        }
-
-        assert.isNull(lotto.getNumber())
-        assert.isNull(lotto.getNumber())
-      })
-
-      it('The numbers sequences, returned from the different "Lottotron" instances, should not be equal.', function() {
-        var maxNumber = 19
-        var lotto1 = new Lottotron(maxNumber)
-        var lotto2 = new Lottotron(maxNumber)
-        var array1 = []
-        var array2 = []
-
-        for (let i = 0; i <= maxNumber; i++) {
-          array1.push(lotto1.getNumber())
-          array2.push(lotto2.getNumber())
-        }
-
-        assert(!areStrictEqualArrays(array1, array2))
-      })
-    })
 
     describe('#restNumbers', function() {
       it('Should be an array', function() {
