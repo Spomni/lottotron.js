@@ -31,7 +31,7 @@ describe('lottotron.js', function() {
       //
     } // itWrapper
 
-  /** @function isNull
+  /** @function isNumber
     * @param {mixed} value
     * @returns {boolean}
     */
@@ -58,9 +58,9 @@ describe('lottotron.js', function() {
     function doesArrayInclude(array, value) {
       var res = false
       array.forEach(function(arrayValue, i, array) {
-        if (arrayValue === value)          {
- res = true
-}
+        if (arrayValue === value) {
+          res = true
+        }
       })
       return res
     }
@@ -91,6 +91,15 @@ describe('lottotron.js', function() {
         }, Error)
       }
     }))
+
+
+    it('Should throw an "Error" object if the input param "maxNumber" is not finite value',
+      () => {
+        [NaN, +Infinity, -Infinity].forEach((nonFinite) => {
+          assert.throws(() => new Lottotron(nonFinite));
+        })
+      }
+    );
 
     it('Should throw an "Error" object if the input param "maxNumber" is less than 0.', function() {
       assert.throws(function() {
