@@ -1,5 +1,15 @@
 const assert = require('chai').assert
 const Lottotron = require('../lottotron.js')
+const lottotronError = require('../lib/LottotronError');
+
+const assertThrowsLottotronError = (cb) => {
+  assert.throws(cb);
+  try {
+    cb();
+  } catch (error) {
+    assert.instanceOf(error, lottotronError);
+  }
+}
 
 describe('lottotron.js', function() {
   /** @namespace itWrappers */
@@ -96,13 +106,13 @@ describe('lottotron.js', function() {
     it('Should throw an "Error" object if the input param "maxNumber" is not finite value',
       () => {
         [NaN, +Infinity, -Infinity].forEach((nonFinite) => {
-          assert.throws(() => new Lottotron(nonFinite));
+          assertThrowsLottotronError(() => new Lottotron(nonFinite));
         })
       }
     );
 
     it('Should throw an "Error" object if the input param "maxNumber" is less than 0.', function() {
-      assert.throws(function() {
+      assertThrowsLottotronError(function() {
         var lotto = new Lottotron(-1)
         lotto.reset()
       }, Error)
