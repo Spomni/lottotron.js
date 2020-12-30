@@ -1,3 +1,5 @@
+const LottotronError = require('./lib/LottotronError');
+
 const { isNumber } = require('util');
 
 const ERROR_MSG ={
@@ -58,15 +60,15 @@ class Lottotron {
   constructor(maxNumber) {
 
     if (!isNumber(maxNumber)) {
-      throw new Error(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER);
+      throw new LottotronError(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER);
     }
 
     if (!Number.isFinite(maxNumber)) {
-      throw new Error(ERROR_MSG.MAX_NUMBER_IS_NOT_FINITE)
+      throw new LottotronError(ERROR_MSG.MAX_NUMBER_IS_NOT_FINITE)
     }
 
     if (maxNumber < 0) {
-      throw new Error(ERROR_MSG.MAX_NUMBER_LOWER_ZERO);
+      throw new LottotronError(ERROR_MSG.MAX_NUMBER_LOWER_ZERO);
     }
 
     /**
