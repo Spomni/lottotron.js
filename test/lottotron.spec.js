@@ -164,85 +164,87 @@ describe('class Lottotron', () => {
         }))
       }
     )
+  })
 
+  describe('#restNumbers', () => {
+
+    it(`Should be an array.`,
+      () => {
+        const { restNumbers } = new Lottotron(32);
+        assert.isArray(restNumbers);
+      }
+    );
+
+    it('Should contain all numbers of the interval that were not returned from the method "getNumber".',
+      () => {
+        const maxNumber = 5;
+        const lotto = new Lottotron(maxNumber);
+
+        let remainder = Array(maxNumber + 1).fill(null)
+          .map((value, index) => index);
+
+        for (let i=0; i <= maxNumber; i++) {
+          const { restNumbers } = lotto;
+
+          assert.deepEqual(restNumbers, remainder);
+
+          const number = lotto.getNumber();
+          const index = remainder.findIndex((value) => value === number);
+          remainder.splice(index, 1);
+        }
+      }
+    );
+
+    it(`Should return an empty array if all numbers from the interval was returned`,
+      () => {
+        const maxNumber = 13;
+        const lotto = new Lottotron(13)
+        let counter = 0;
+
+        while (counter < maxNumber + 7) {
+          lotto.getNumber();
+          if (counter > maxNumber + 1) {
+            assert.isEmpty(lotto.restNumbers);
+          }
+          counter++;
+        }
+      }
+    );
+
+    it(`Should return new array every time method calls.`,
+      () => {
+        const lotto = new Lottotron(3);
+
+        const oldValue = lotto.restNumbers;
+        lotto.restNumbers = Symbol('newValue');
+        assert(lotto.restNumbers !== oldValue);
+      }
+    )
+
+    it('Should be a read-only property.',
+      () => {
+        const lotto = new Lottotron(3);
+
+        const oldValue = lotto.restNumbers;
+        lotto.restNumbers = Symbol('newValue');
+        assert.deepEqual(lotto.restNumbers, oldValue);
+      }
+    )
+
+    it(`Should return the same result if the array returned in the previous call is changed.`,
+      () => {
+        const lotto = new Lottotron(13);
+        const { restNumbers } = lotto;
+        const restNumbersCopy = restNumbers.map((item) => item);
+        restNumbers[6] = Symbol('someValue');
+        assert.deepEqual(lotto.restNumbers, restNumbersCopy);
+      }
+    );
   })
 
 
+
   describe('Lottotron', () => {
-
-    describe('#restNumbers', function() {
-      it('Should be an array', function() {
-        var lotto = new Lottotron(4)
-        assert.isArray(lotto.restNumbers)
-      })
-
-      it('Should contain all numbers of the interval that were not returned from the method "getNumber".', function() {
-        var maxNumber = 6
-        var lotto = new Lottotron(maxNumber)
-
-        var dontReturned = []
-        for (let i = 0; i <= maxNumber; i++) {
-          dontReturned.push(i)
-        }
-
-        for (let i = 0; i <= maxNumber; i++) {
-          var number = lotto.getNumber()
-
-          for (var key in dontReturned) {
-            if (dontReturned[key] === number) {
-              dontReturned.splice(key, 1)
-            }
-          }
-
-          dontReturned.forEach(function(number, i, dontReturned) {
-            assert.include(lotto.restNumbers, number)
-          })
-        }
-      })
-
-      it('Should not contain numbers that was returned from the method "getNumber".', function() {
-        var maxNumber = 9
-        var lotto = new Lottotron(maxNumber)
-        var returnedNumbers = []
-
-        for (let i = 0; i <= maxNumber; i++) {
-          returnedNumbers.push(lotto.getNumber())
-          var restNumbers = lotto.restNumbers
-
-          returnedNumbers.forEach(function(number, i, returnedNumbers) {
-            assert.notInclude(restNumbers, number)
-          })
-        }
-      })
-
-      it('Should return an empty array if all numbers from the interval was returned from the method "getNumber".', function() {
-        var lotto = new Lottotron(7)
-
-        while (!isNull(lotto.getNumber())) {
-          'smile please'
-        };
-
-        assert.isArray(lotto.restNumbers)
-        assert.strictEqual(lotto.restNumbers.length, 0)
-      })
-
-      it('Should be read-only.', function() {
-        var lotto = new Lottotron(4)
-
-        lotto.restNumbers = [1, 3]
-
-        assert(areStrictEqualArrays([0, 1, 2, 3, 4], lotto.restNumbers))
-      })
-
-      it('Should not change when the returb value has been changed.', function() {
-        var lotto = new Lottotron(3)
-
-        var value = lotto.restNumbers
-        value.push(98)
-
-        assert(areStrictEqualArrays([0, 1, 2, 3], lotto.restNumbers))
-      })
-    })
 
     describe('#reload()', function() {
       it('The property "restNumbers" should contain all numbers of the interval.', function() {
