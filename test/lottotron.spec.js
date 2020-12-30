@@ -28,12 +28,6 @@ const ERROR_MSG_ ={
 }
 
 const isNumber = (value) => typeof(value) === 'number';
-const isNull = (value) => value === null;
-
-const areStrictEqualArrays = (array1, array2) => {
-  return array1.length === array2.length
-    && array1.every((value, index) => value === array2[index]);
-}
 
 const getNaturalNumbersTo = (maxNumber) => {
   let array = [];
