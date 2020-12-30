@@ -3,6 +3,7 @@ const { isNumber } = require('util');
 const ERROR_MSG ={
   MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
   MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
+  MAX_NUMBER_IS_NOT_FINITE: 'The input option "maxNumber" should be a finite number.'
 }
 
 /**
@@ -48,7 +49,7 @@ const createArrayOfIntegers = (maxNumber) => {
  * Create an object that can return random non-repeated integers.
  * It returns integers from 0 to the user-defined value.
  *
- * @param {number} maxNumber - The max number of the interval. Should be not less than 0. The float number will be rounded down to the nearest integer.
+ * @param {number} maxNumber - The max number of the interval. Should be a positive finite number. The float value will be rounded down.
  *
  * @class Lottotron
  */
@@ -58,6 +59,10 @@ class Lottotron {
 
     if (!isNumber(maxNumber)) {
       throw new Error(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER);
+    }
+
+    if (!Number.isFinite(maxNumber)) {
+      throw new Error(ERROR_MSG.MAX_NUMBER_IS_NOT_FINITE)
     }
 
     if (maxNumber < 0) {
