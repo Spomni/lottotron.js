@@ -1,8 +1,8 @@
-const LottotronError = require('./lib/LottotronError');
+const LottotronError = require('./lib/LottotronError')
 
-const { isNumber } = require('util');
+const { isNumber } = require('util')
 
-const ERROR_MSG ={
+const ERROR_MSG = {
   MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
   MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
   MAX_NUMBER_IS_NOT_FINITE: 'The input option "maxNumber" should be a finite number.'
@@ -15,7 +15,7 @@ const ERROR_MSG ={
  * @returns {array}
  * @private
  */
-const cloneArray = (array) => array.map(value => value);
+const cloneArray = (array) => array.map(value => value)
 
 /**
  * Return a random number from min to max
@@ -26,8 +26,8 @@ const cloneArray = (array) => array.map(value => value);
  * @private
  */
 const getRandomInteger = (min, max) => {
-  const randomNumber = min + Math.random () * (max + 1 - min);
-  return Math.floor(randomNumber);
+  const randomNumber = min + Math.random() * (max + 1 - min)
+  return Math.floor(randomNumber)
 }
 
 /**
@@ -38,13 +38,13 @@ const getRandomInteger = (min, max) => {
  * @private
  */
 const createArrayOfIntegers = (maxNumber) => {
-  let arrayOfIntegers = [];
+  let arrayOfIntegers = []
 
-  for (let i=0; i <= maxNumber; i++) {
-    arrayOfIntegers[i] = i;
+  for (let i = 0; i <= maxNumber; i++) {
+    arrayOfIntegers[i] = i
   }
 
-  return arrayOfIntegers;
+  return arrayOfIntegers
 }
 
 /**
@@ -58,9 +58,8 @@ const createArrayOfIntegers = (maxNumber) => {
 class Lottotron {
 
   constructor(maxNumber) {
-
     if (!isNumber(maxNumber)) {
-      throw new LottotronError(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER);
+      throw new LottotronError(ERROR_MSG.MAX_NUMBER_IS_NOT_NUMBER)
     }
 
     if (!Number.isFinite(maxNumber)) {
@@ -68,7 +67,7 @@ class Lottotron {
     }
 
     if (maxNumber < 0) {
-      throw new LottotronError(ERROR_MSG.MAX_NUMBER_LOWER_ZERO);
+      throw new LottotronError(ERROR_MSG.MAX_NUMBER_LOWER_ZERO)
     }
 
     /**
@@ -89,7 +88,6 @@ class Lottotron {
      * @private
      */
     this._restNumbers = createArrayOfIntegers(this._maxNumber)
-
   }
 
   /**
@@ -101,7 +99,7 @@ class Lottotron {
    * @memberof Lottotron
    */
   get maxNumber() {
-    return this._maxNumber;
+    return this._maxNumber
   }
 
   /**
@@ -113,7 +111,7 @@ class Lottotron {
    * @memberof Lottotron
    */
   get restNumbers() {
-    return cloneArray(this._restNumbers);
+    return cloneArray(this._restNumbers)
   }
 
   /**
@@ -135,8 +133,7 @@ class Lottotron {
    * @memberof Lottotron
    */
   getNumber() {
-
-    let { _restNumbers } = this;
+    let { _restNumbers } = this
 
     if (_restNumbers.length === 0) {
       return null
@@ -148,4 +145,4 @@ class Lottotron {
 
 }
 
-module.exports = Lottotron;
+module.exports = Lottotron
