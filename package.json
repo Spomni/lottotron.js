@@ -1,6 +1,6 @@
 {
   "name": "@spomni/lottotron",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "'Construct an object that returns random non-repeating integers'",
   "main": "lottotron.js",
   "directories": {
