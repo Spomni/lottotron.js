@@ -32,7 +32,5 @@
   "standart": {
     "ignore": "doc/**/*"
   },
-  "dependencies": {
-    "util": "^0.12.3"
-  }
+  "dependencies": {}
 }

@@ -1,12 +1,19 @@
 const LottotronError = require('./lib/LottotronError')
 
-const { isNumber } = require('util')
-
 const ERROR_MSG = {
   MAX_NUMBER_IS_NOT_NUMBER: 'The input option "maxNumber" should be a number.',
   MAX_NUMBER_LOWER_ZERO: 'The input option "maxNumber" should be greater than 0.',
   MAX_NUMBER_IS_NOT_FINITE: 'The input option "maxNumber" should be a finite number.'
 }
+
+/**
+ * Check if the value is number.
+ *
+* @param {mixed} value
+* @returns {array}
+* @private
+ */
+const isNumber = (value) => typeof(value) === 'number'
 
 /**
  * Return a clone of the array
