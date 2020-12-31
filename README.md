@@ -8,7 +8,7 @@ The instance returns integers from 0 to the user-defined value.
 Install **`lottotron`**.
 
     npm install @spomni/lottotron
-  
+
 Add a constructor into your script.
 
     const Lottotron = require('@spomni/lottotron')
@@ -42,4 +42,4 @@ If you pass an invalid option to the constructor it throws a `LottotronError` in
 
 <hr>
 
-The more information looks on the [documentation](https://https://spomni.github.io/lottotron).
+The more information looks on the [documentation](https://spomni.github.io/lottotron).
