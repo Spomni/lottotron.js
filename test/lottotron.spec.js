@@ -1,6 +1,6 @@
 const assert = require('chai').assert
 
-const Lottotron = require('../lottotron.js')
+const Lottotron = require('..')
 const LottotronError = require('../lib/LottotronError')
 
 const arrayOfTypes = [
