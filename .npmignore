@@ -1,3 +1,4 @@
-docs/
-test/
-temp/
+docs
+test
+CHANGELOG.md
+README.md
