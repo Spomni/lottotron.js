@@ -1,3 +1,9 @@
+# v2.0.2
+
+Minor fixes:
+  - add the temp folder to the .npmignore;
+  - add the docs fodler to the linter ignore list.
+
 # v2.0.1
 
 Big refactoring update:

@@ -30,7 +30,7 @@
     "standart": "^6.1.0"
   },
   "standart": {
-    "ignore": "doc/**/*"
+    "ignore": "docs/**/*"
   },
   "dependencies": {}
 }
