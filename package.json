@@ -2,6 +2,7 @@
   "name": "@spomni/lottotron",
   "version": "2.0.2",
   "description": "Construct an object that returns random non-repeating integers",
+  "keywords": ["random", "integer", "unique"],
   "main": "index.js",
   "directories": {
     "doc": "doc",
