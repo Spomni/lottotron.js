@@ -12,7 +12,7 @@
     "test": "mocha --reporter progress",
     "prepublishOnly": "npm run standart && npm test",
     "standart": "standart --fix --env mocha",
-    "generate-doc": "jsdoc lottotron.js -d docs/ -r README.md"
+    "generate-doc": "jsdoc lib/Lottotron.js -d docs/ -r README.md"
   },
   "repository": {
     "type": "git",
